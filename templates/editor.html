@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Edit Image</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>🎛 Adjust Colors</h1>
+    <div class="images">
+      <div>
+        <h3>Original</h3>
+        <img src="{{ url_for('static', filename='uploads/' + filename) }}" width="300">
+      </div>
+      <div>
+        <h3>Adjusted</h3>
+        <img id="adjustedImg" src="{{ url_for('static', filename='uploads/' + filename) }}" width="300">
+      </div>
+    </div>
+
+    <div class="sliders">
+      <label>Blue <input type="range" id="blue" min="-100" max="100" value="0"></label>
+      <label>Green <input type="range" id="green" min="-100" max="100" value="0"></label>
+      <label>Red <input type="range" id="red" min="-100" max="100" value="0"></label>
+    </div>
+
+    <div class="buttons">
+      <button id="resetBtn">Reset</button>
+      <button id="saveBtn">💾 Save</button>
+    </div>
+  </div>
+
+  <script>
+    const blue = document.getElementById("blue");
+    const green = document.getElementById("green");
+    const red = document.getElementById("red");
+    const adjustedImg = document.getElementById("adjustedImg");
+    const saveBtn = document.getElementById("saveBtn");
+
+    function updateImage(){
+      fetch("/adjust", {
+        method: "POST",
+        headers: {"Content-Type": "application/json"},
+        body: JSON.stringify({
+          blue: blue.value,
+          green: green.value,
+          red: red.value,
+          roi: null // ROI selection can be added later
+        })
+      })
+      .then(res => res.json())
+      .then(data => {
+        adjustedImg.src = data.adjusted_url + "?t=" + new Date().getTime(); // cache-bust
+      });
+    }
+
+    blue.addEventListener("input", updateImage);
+    green.addEventListener("input", updateImage);
+    red.addEventListener("input", updateImage);
+
+    document.getElementById("resetBtn").addEventListener("click", () => {
+      blue.value = 0;
+      green.value = 0;
+      red.value = 0;
+      updateImage();
+    });
+
+    saveBtn.addEventListener("click", () => {
+      fetch("/save", { method: "POST" })
+      .then(res => res.json())
+      .then(data => {
+        alert("✅ Image saved successfully at: " + data.saved_url);
+      });
+    });
+  </script>
+</body>
+</html>

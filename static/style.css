@@ -1,0 +1,36 @@
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    background: #f9f9f9;
+  }
+  
+  .container {
+    padding: 20px;
+  }
+  
+  .images {
+    display: flex;
+    justify-content: center;
+    gap: 40px;
+    margin: 20px 0;
+  }
+  
+  .sliders label {
+    display: block;
+    margin: 10px;
+  }
+  
+  input[type="range"] {
+    width: 300px;
+  }
+  
+  button {
+    padding: 10px 20px;
+    margin-top: 10px;
+    background: #0077cc;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+  }
+  
