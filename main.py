@@ -4,9 +4,8 @@ import matplotlib.pyplot as plt
 from matplotlib.widgets import Slider, Button
 import urllib.request
 
-# --------------------------
 # Function to load image from URL
-# --------------------------
+
 def load_image_from_url(url):
     try:
         resp = urllib.request.urlopen(url)
@@ -18,9 +17,8 @@ def load_image_from_url(url):
         return None
 
 
-# --------------------------
 # Function for ROI selection (mouse-based)
-# --------------------------
+
 def select_roi(image):
     clone = image.copy()
     roi = cv2.selectROI("Select ROI", clone, False, False)
@@ -32,15 +30,13 @@ def select_roi(image):
         return None
 
 
-# --------------------------
 # Function to display and adjust color channels inside ROI
-# --------------------------
+
 def adjust_color_channels(image, roi=None):
     if image is None:
         print("❌ Error: Could not load the image.")
         return
 
-    # Resize image if too large
     max_dim = 600
     h, w = image.shape[:2]
     if max(h, w) > max_dim:
@@ -51,14 +47,12 @@ def adjust_color_channels(image, roi=None):
     original_image = image.copy()
     image_rgb = cv2.cvtColor(original_image, cv2.COLOR_BGR2RGB)
 
-    # Show original + adjusted images
     fig, ax = plt.subplots(1, 2, figsize=(12, 6))
     plt.subplots_adjust(bottom=0.3)
     ax[0].imshow(image_rgb)
     ax[0].set_title("Original Image")
     ax[0].axis('off')
 
-    # Placeholder for adjusted image
     adjusted_display = ax[1].imshow(image_rgb)
     ax[1].set_title("Adjusted Image")
     ax[1].axis('off')

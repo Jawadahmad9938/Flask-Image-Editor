@@ -11,7 +11,6 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-# Global variables
 original_image = None
 current_filename = None
 last_adjusted_path = None
@@ -36,7 +35,7 @@ def upload_image():
 
     original_image = cv2.imread(filepath)
     current_filename = filename
-    last_adjusted_path = filepath  # initialize with original
+    last_adjusted_path = filepath  
 
     return render_template("editor.html", filename=filename)
 
@@ -52,7 +51,7 @@ def adjust_image():
     blue = int(data.get("blue", 0))
     green = int(data.get("green", 0))
     red = int(data.get("red", 0))
-    roi = data.get("roi", None)  # ROI coords from frontend
+    roi = data.get("roi", None) 
 
     modified = original_image.copy()
 
