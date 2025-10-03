@@ -75,7 +75,6 @@ def adjust_image():
     adjusted_path = os.path.join(app.config["UPLOAD_FOLDER"], adjusted_name)
     cv2.imwrite(adjusted_path, modified)
 
-    # update last adjusted
     last_adjusted_path = adjusted_path
 
     return jsonify({"adjusted_url": url_for("static", filename=f"uploads/{adjusted_name}")})
